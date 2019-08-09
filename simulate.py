@@ -100,4 +100,4 @@ for turn in range(10):
     cpop = induce_crisis(population)
     ppop = gods_own_babysitting(cpop)
     utility, population = resolve(ppop)
-    print(turn, utility, {s.scrip: ct for s,ct in population.items()})
+    print(turn, utility, sorted((s.scrip, ct) for s,ct in population.items()))
