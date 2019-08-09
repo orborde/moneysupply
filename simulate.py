@@ -25,7 +25,7 @@ def reset(pop: Dict[State, int]) -> Dict[State, int]:
         new_pop[s2] += ct
     return dict(new_pop)
 
-def induce_crisis(pop):
+def induce_crisis(pop: Dict[State, int]):
     assert all(s.flavor == SELFSITTING for s in pop.keys())
     new_pop = collections.defaultdict(int)
     for s,ct in pop.items():
