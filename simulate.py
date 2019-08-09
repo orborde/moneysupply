@@ -136,11 +136,9 @@ def destroy_poverty(pop):
 
 def gods_own_babysitting(pop):
     ccs = cover_crises(pop)
-    print('cover_crises:', ccs)
 
     ccpop = execute(pop, ccs)
     dps = destroy_poverty(ccpop)
-    print('destroy_poverty:', dps)
 
     return ccs+dps
 
