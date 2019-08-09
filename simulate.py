@@ -93,7 +93,7 @@ import doctest
 assert doctest.testmod().failed == 0
 
 population = {
-    State(SELFSITTING, 1): 10000,
+    State(SELFSITTING, 1): 1000000,
 }
 
 for turn in range(10):
