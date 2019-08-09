@@ -19,7 +19,7 @@ def reset(pop: Dict[State, int]) -> Dict[State, int]:
     >>> reset({State(CRISIS,1):10, State(BABYSAT,1):20})
     {State(flavor='selfsitting', scrip=1): 30}
     """
-    new_pop = collections.defaultdict(int)
+    new_pop: Dict[State, int] = collections.defaultdict(int)
     for s,ct in pop.items():
         s2 = State(flavor=SELFSITTING, scrip=s.scrip)
         new_pop[s2] += ct
@@ -27,7 +27,7 @@ def reset(pop: Dict[State, int]) -> Dict[State, int]:
 
 def induce_crisis(pop: Dict[State, int]):
     assert all(s.flavor == SELFSITTING for s in pop.keys())
-    new_pop = collections.defaultdict(int)
+    new_pop: Dict[State, int] = collections.defaultdict(int)
     for s,ct in pop.items():
         crisis_ct = int(ct * CRISIS_PROBABILITY)
         ok_ct = ct - crisis_ct
@@ -35,7 +35,7 @@ def induce_crisis(pop: Dict[State, int]):
         new_pop[State(SELFSITTING, s.scrip)] += ok_ct
     return new_pop
 
-def resolve(pop: Dict[State, int]) -> (int, Dict[State, int]):
+def resolve(pop: Dict[State, int]) -> Tuple[int, Dict[State, int]]:
     utility = 0
     for s in pop:
         if s.flavor == CRISIS:
