@@ -107,8 +107,42 @@ def cover_crises(pop: Dict[State, int]) -> List[Command]:
 
     return cmds
 
+def destroy_poverty(pop):
+    poverty_sitter_group  = State(SELFSITTING, 0)
+    wealthy_sitter_groups = [
+        s for s in pop.keys()
+        if s.flavor == SELFSITTING and s.scrip > 1
+    ]
+
+    # Try to spend the rich's money first.
+    wealthy_sitter_groups.sort(key=lambda s: s.scrip, reverse=True)
+
+    cmds = []
+    impoverished_remaining = pop[poverty_sitter_group]
+    while impoverished_remaining > 0 and len(wealthy_sitter_groups) > 0:
+        # Either the wg will consume the remaining impoverished, or the impoverished
+        # will consume the entire wg. In the first case, we're about to bounce out of
+        # the loop, so it's fine to delete the wg.
+        wg = wealthy_sitter_groups.pop(0)
+
+        size = min(impoverished_remaining, pop[wg])
+        impoverished_remaining -= size
+        cmds.append(Command(
+            babysitter=poverty_sitter_group,
+            recipient= wg,
+            size=size,
+        ))
+    return cmds
+
 def gods_own_babysitting(pop):
-    return cover_crises(pop)
+    ccs = cover_crises(pop)
+    print('cover_crises:', ccs)
+
+    ccpop = execute(pop, ccs)
+    dps = destroy_poverty(ccpop)
+    print('destroy_poverty:', dps)
+
+    return ccs+dps
 
 import doctest
 assert doctest.testmod().failed == 0
